@@ -30,7 +30,9 @@ common dependencies
     ghc-options: -Wall
     build-depends:
         base ^>=4.22.0.0,
-        HDBC-sqlite3 ^>= 2.3.3.1
+        HDBC-sqlite3 ^>= 2.3.3.1,
+        -- happstack-server ^>= 7.9.3,
+        happstack-lite ^>= 7.3.8
         
 
 executable Hike
