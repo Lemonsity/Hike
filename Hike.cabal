@@ -27,11 +27,25 @@ extra-doc-files:    CHANGELOG.md
 
 
 common dependencies
-    ghc-options: -Wall
-    build-depends: base ^>= 4.19.2.0
-                 , text ^>= 2.1.1
-                 , time ^>= 1.12.2
+    ghc-options: -Wall -threaded
+    build-depends: base
+                 , bytestring
+                 , text
+                 , directory 
+                 , time
+                 , base-compat
+                 , mtl
+                 , aeson
+                 , attoparsec
+                 , string-conversions
+                 , lucid
+                 , http-media
+                 , blaze-html
+                 , blaze-markup
+                 , wai
+                 , warp
                  , servant ^>= 0.20.3.0
+                 , servant-server
                  
 
 executable Hike
@@ -49,9 +63,9 @@ executable Hike
 
     -- Directories containing source files.
     hs-source-dirs: app
-                  , app/Routes
 
-    other-modules: Users
+    other-modules: Routes.Users
+                 , Handlers.Users
 
     -- Base language which the package is written in.
     default-language: GHC2021
