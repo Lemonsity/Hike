@@ -28,14 +28,11 @@ extra-doc-files:    CHANGELOG.md
 
 common dependencies
     ghc-options: -Wall
-    build-depends:
-        base ^>=4.22.0.0,
-        text ^>= 2.0.2,
-        blaze-html ^>= 0.9.2.0,
-        HDBC-sqlite3 ^>= 2.3.3.1,
-        -- happstack-server ^>= 7.9.3,
-        happstack-lite ^>= 7.3.8
-        
+    build-depends: base ^>= 4.19.2.0
+                 , text ^>= 2.1.1
+                 , time ^>= 1.12.2
+                 , servant ^>= 0.20.3.0
+                 
 
 executable Hike
     import:           dependencies
@@ -51,7 +48,10 @@ executable Hike
     build-depends:    
 
     -- Directories containing source files.
-    hs-source-dirs:   app
+    hs-source-dirs: app
+                  , app/Routes
+
+    other-modules: Users
 
     -- Base language which the package is written in.
-    default-language: GHC2024
+    default-language: GHC2021
