@@ -27,7 +27,6 @@ extra-doc-files:    CHANGELOG.md
 
 
 common dependencies
-    ghc-options: -Wall -threaded
     build-depends: base
                  , bytestring
                  , text
@@ -46,26 +45,39 @@ common dependencies
                  , warp
                  , servant ^>= 0.20.3.0
                  , servant-server
+                 , persistent
+                 , persistent-sqlite
+                 , monad-logger
+                 , conduit
+
+library models
+    import: dependencies
+    
+    ghc-options: -Wall
+
+    build-depends: 
+
+    hs-source-dirs: models
+
+    exposed-modules: Model
+
+    default-language: GHC2021
                  
 
 executable Hike
     import:           dependencies
+    ghc-options: -Wall -threaded
 
     main-is:          Main.hs
-
-    -- other-modules:
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
 
-    -- Other library packages from which modules are imported.
-    build-depends:    
+    build-depends: models
 
-    -- Directories containing source files.
     hs-source-dirs: app
 
     other-modules: Routes.Users
                  , Handlers.Users
 
-    -- Base language which the package is written in.
     default-language: GHC2021
