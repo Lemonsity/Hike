@@ -15,10 +15,9 @@ module Routes.Users
 where
 
 import Data.Time
-import GHC.Generics
 import Data.Aeson
 import Data.Aeson.Types
-
+import GHC.Generics
 import Servant.API
 
 data User = User
