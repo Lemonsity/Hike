@@ -1,0 +1,16 @@
+#+TITLE: ~Main.hs~
+
+* Database Setup
+
+** SQLite and Foreign Key Constraints
+
+By default, SQLite does not check for foreign key constraints [fn:1] [fn:2].
+Since ~persistent-sqlite-2.6.2~, the ~SqliteConnectionInfo~ type represents the configuration setting for a SQLite connection. The ~mkSqliteConnectionInfo~ function generates one such configuration with foreign key constraints turned on by default [fn:3].
+
+* Footnotes
+
+[fn:1] Yesod ~persistent~ [[https://github.com/yesodweb/persistent/blob/master/docs/Database-Configuration.md][database configuration documentation]]
+
+[fn:2] Yesod Cookbook, [[https://github.com/yesodweb/yesod-cookbook/blob/master/cookbook/Activate-foreign-key-checking-in-Sqlite.md][Activate foreign key checking in Sqlite]]
+
+[fn:3] GitHub PR, [[https://github.com/yesodweb/persistent/pull/646][Enable foreign key constraints by default for Sqlite backend]]

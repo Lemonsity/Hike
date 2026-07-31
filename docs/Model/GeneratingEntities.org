@@ -1,0 +1,17 @@
+#+TITLE: Generating Entities
+
+* Prelude
+
+~persistent~ uses quasiquoters to generate /persistent entities/. It uses a special syntax called the /Persistent Entity Syntax/. The full definition and demo can be found on Hackage [fn:1].
+
+* Making Persistent Entity a Valid Response Type
+
+To serve an server (Turning the server into an application), the type of the HTTP response needs to be an ~ToJSON~ instance.
+
+There are two steps:
+1. The persistent entity needs to derive ~Generic~
+2. Declare the persistent entity ~Entity~ as an ~instance ToJSON Entity~
+
+* Footnotes
+
+[fn:1] Hackage: [[https://hackage-content.haskell.org/package/persistent-2.18.1.0/docs/Database-Persist-Quasi.html][Persistent Entity Syntax Reference]]
