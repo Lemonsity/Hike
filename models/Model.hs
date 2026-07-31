@@ -13,22 +13,22 @@
 {-# LANGUAGE UndecidableInstances       #-}
 
 module Model
-  ( migrateAll
-  , Person(..)
+  ( Location(..)
+  , migrateAll
   ) where
 
+import GHC.Generics
+import Data.Aeson
+import Database.Persist.Sqlite
+import Database.Persist.TH
 
-import           Database.Persist
-import           Database.Persist.Sqlite
-import           Database.Persist.TH
-import           Data.Text
-import           Control.Monad.Reader
-import           Control.Monad.Logger
-import           Conduit
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
-Person
-    name String
-    age Int Maybe
-    deriving Show
+Location
+    latitude Double
+    longitude Double
+    UniqueCoordinate latitude longitude
+    deriving Eq Show Ord Generic
 |]
+
+instance ToJSON Location

@@ -78,6 +78,8 @@ executable Hike
     hs-source-dirs: app
 
     other-modules: Routes.Users
+                 , Routes.Location
                  , Handlers.Users
+                 , Handlers.Location
 
     default-language: GHC2021
