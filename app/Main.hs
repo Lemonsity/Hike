@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings          #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Main (main) where
 
@@ -15,16 +15,28 @@ import           Control.Monad.Logger
 import           Conduit
 
 import Model
+import Handlers.Location
+
+-- | Default SQLite connection info
+-- See documentation for detail
+sqliteConnectionInfo :: SqliteConnectionInfo
+sqliteConnectionInfo = mkSqliteConnectionInfo "data.db"
 
 -- main :: IO ()
 -- main = run 8081 usersApp
 
-runSqlite' :: (MonadUnliftIO m) => Text -> ReaderT SqlBackend (NoLoggingT (ResourceT m)) a -> m a
-runSqlite' = runSqlite
+-- runSqlite' :: (MonadUnliftIO m) => SqliteConnectionInfo -> ReaderT SqlBackend (NoLoggingT (ResourceT m)) a -> m a
+-- runSqlite' = runSqliteInfo
+
+-- main :: IO ()
+-- main = runSqliteInfo sqliteConnectionInfo $ do
+--     runMigration migrateAll
+--     michaelId <- insert $ Location 1.0 2.0
+--     michael <- get michaelId
+--     liftIO $ print michael
+
 
 main :: IO ()
-main = runSqlite' ":memory:" $ do
-    runMigration migrateAll
-    michaelId <- insert $ Person "Michael" $ Just 26
-    michael <- get michaelId
-    liftIO $ print michael
+main = runStderrLoggingT $
+       withSqlitePoolInfo sqliteConnectionInfo 10 $
+       (\pool -> LoggingT { runLoggingT = const $ run 8081 $ locationsApp pool })
