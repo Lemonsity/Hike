@@ -39,6 +39,7 @@ common dependencies
                  , string-conversions
                  , lucid
                  , http-media
+                 , http-types
                  , blaze-html
                  , blaze-markup
                  , wai

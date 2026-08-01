@@ -2,7 +2,10 @@
 
 module Main (main) where
 
+import Network.HTTP.Types.Status
+import Network.Wai
 import Network.Wai.Handler.Warp
+
 
 import Handlers.Users
 
@@ -16,11 +19,6 @@ import           Conduit
 
 import Model
 import Handlers.Location
-
--- | Default SQLite connection info
--- See documentation for detail
-sqliteConnectionInfo :: SqliteConnectionInfo
-sqliteConnectionInfo = mkSqliteConnectionInfo "data.db"
 
 -- main :: IO ()
 -- main = run 8081 usersApp
@@ -36,7 +34,32 @@ sqliteConnectionInfo = mkSqliteConnectionInfo "data.db"
 --     liftIO $ print michael
 
 
+
+type WarpLogFunc = (Request -> Status -> Maybe Integer -> IO ())
+
+monadLoggerToWarpLogger :: LogFunc -> WarpLogFunc
+monadLoggerToWarpLogger loggerFunc request status fileSize =
+  let logSource = "warp server"
+      logStr = toLogStr (show request)
+        <> toLogStr (show status)
+        <> toLogStr ("File size: " <> show fileSize)
+  in loggerFunc defaultLoc logSource LevelInfo logStr
+
+warpSetting :: LogFunc -> Settings
+warpSetting logFunc =
+  setLogger (monadLoggerToWarpLogger logFunc) $
+  setPort 8081 defaultSettings
+
+-- warpWebServer :: ConnectionPool -> LogFunc -> IO ()
+-- warpWebServer pool logFunc = runSettings (warpSetting logFunc) $ locationsApp pool
+
+warpWebServer :: ConnectionPool -> LoggingT IO ()
+warpWebServer pool = LoggingT $
+  \logFunc -> runSettings (warpSetting logFunc) $ locationsApp pool
+
+
+
 main :: IO ()
 main = runStderrLoggingT $
-       withSqlitePoolInfo sqliteConnectionInfo 10 $
-       (\pool -> LoggingT { runLoggingT = const $ run 8081 $ locationsApp pool })
+       withSqlitePoolInfo (mkSqliteConnectionInfo "data.db") 10 $
+       warpWebServer
