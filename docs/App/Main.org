@@ -7,12 +7,6 @@
 - In practice, because warp cannot produce a term that is an instance of ~MonadLoggerIO~, we will need to use ~LoggingT~ to create one from the IO action produces by running a warp web server.
 - warp server optionally takes a logger, which we can supply by altering the logger provided by the ~MonadLoggerIO~.
 
-
-
-
-In other words, the action is expected to be supplied with a logger that uses IO action as the mean to log the events.
-
-
 * Database Setup
 
 ** SQLite and Foreign Key Constraints
