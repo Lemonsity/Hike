@@ -6,16 +6,8 @@ import Network.HTTP.Types.Status
 import Network.Wai
 import Network.Wai.Handler.Warp
 
-
-import Handlers.Users
-
-import           Database.Persist
 import           Database.Persist.Sqlite
-import           Database.Persist.TH
-import           Data.Text
-import           Control.Monad.Reader
 import           Control.Monad.Logger
-import           Conduit
 
 import Model
 import Handlers.Location

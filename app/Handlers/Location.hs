@@ -15,7 +15,7 @@ import Model
 serverLocations :: ConnectionPool -> Server AllLocations
 serverLocations pool = liftIO $
   let action = do
-        (locations :: [Entity Location]) <- selectList [] []
+        locations <- selectList [] []
         return $ map entityVal locations
   in runSqlPool action pool
 
