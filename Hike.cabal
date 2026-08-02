@@ -84,3 +84,7 @@ executable Hike
                  , Handlers.Location
 
     default-language: GHC2021
+
+
+
+--     ghc-options: -Wall -threaded -ddump-tc -ddump-ds-preopt
