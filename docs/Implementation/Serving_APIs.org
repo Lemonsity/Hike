@@ -1,0 +1,47 @@
+#+TITLE: Defining APIs
+
+* Main Flow
+
+Serving an endpoint takes 3 steps:
+1. Defining an ~API~ endpoint
+2. Defining a ~Server~ for the said ~API~
+3. Serve the ~Server API~, creating an /wai/ ~Application~
+
+** API
+
+In the ~servant~ framework, APIs are defined as types [fn:1].
+
+** Server
+
+*(WIP What is a type family, what is ~ServerT~, how does it relate to the ~Handler~ monad?)*
+
+Suppose we have an API defined, where the response type is expected to be ~Entity~.
+/So far, in practice/, a handler handling the API needs to be of type (~Handler Entity)~.
+(~Handler a)~ is shorthand for (~ExceptT Server Error IO a)~. To paraphrase the ~servant~ tutorial, ~Handler~ is the simplest monad that allows for 3 things:
+1. Return result on success,
+2. Return error on failure,
+3. Perform IO. [fn:2]
+
+Correspondingly, we have the following properties:
+1. ~Handler~ monad get access to ~return~ on success.
+2. ~Handler~ is an instance of ~MonadError~, giving us access to ~throwError~.
+3. ~Handler~ is an instance of ~MonadIO~, giving us access to ~liftIO~.
+
+** Application
+
+Given a pair of matching API and Server, we can create an ~wai~ application with the ~serve~ function.
+
+* Database Access
+
+When working with an API that needs access to the database, we can pass the database connection as an argument.
+
+How the connection is used depends on the interface provided by other libraries. When using ~persistent~, we can use the provided ~runSqlPool~ function. This this example, some of the monad order are fixed. Namely, because ~Handler~ is not an instance of ~MonadUnliftIO~, it cannot be used by the action passed to ~runSqlPool~. Thus we:
+- Supply a (~Reader backend (IO a))~ action,
+- Let ~runSqlPool~ handles away the ~(Reader backend)~, leaving us an ~(IO a)~,
+- Finally use ~liftIO~ to lift the action of executing SQL to a ~Handler~ context
+
+* Footnotes
+
+[fn:1] ~servant~ tutorial: [[https://docs.servant.dev/en/latest/tutorial/ApiType.html][A web API as a type]]
+
+[fn:2] ~servant~ tutorial: [[https://docs.servant.dev/en/latest/tutorial/Server.html#the-handler-monad][Serving an API - The ~Handler~ monad]]
