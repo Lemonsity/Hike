@@ -32,8 +32,7 @@ import Handlers.Location
 --     michaelId <- insert $ Location 1.0 2.0
 --     michael <- get michaelId
 --     liftIO $ print michael
-
-
+sqliteConnInfo = mkSqliteConnectionInfo "data.db"
 
 type WarpLogFunc = (Request -> Status -> Maybe Integer -> IO ())
 
@@ -57,9 +56,10 @@ warpWebServer :: ConnectionPool -> LoggingT IO ()
 warpWebServer pool = LoggingT $
   \logFunc -> runSettings (warpSetting logFunc) $ locationsApp pool
 
-
-
 main :: IO ()
-main = runStderrLoggingT $
-       withSqlitePoolInfo (mkSqliteConnectionInfo "data.db") 10 $
-       warpWebServer
+main = do
+  runSqliteInfo sqliteConnInfo $ do { runMigration migrateAll
+                                    ; return () }
+  runStderrLoggingT $
+    withSqlitePoolInfo (mkSqliteConnectionInfo "data.db") 10 $
+    warpWebServer

@@ -5,12 +5,19 @@ module Handlers.Location
 import Prelude ()
 import Prelude.Compat
 import Control.Monad.IO.Class
+import Control.Monad.Reader
 import Routes.Location
 import Database.Persist.Sql
 import Servant
 
+import Model
+
 serverLocations :: ConnectionPool -> Server AllLocations
-serverLocations pool = liftIO $ runSqlPool _ pool
+serverLocations pool = liftIO $
+  let action = do
+        (locations :: [Entity Location]) <- selectList [] []
+        return $ map entityVal locations
+  in runSqlPool action pool
 
 locationsAPI :: Proxy AllLocations
 locationsAPI = Proxy
