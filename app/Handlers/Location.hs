@@ -9,10 +9,12 @@ import Routes.Location
 import Database.Persist.Sql
 import Servant
 
+import Model
+
 serverLocations :: ConnectionPool -> Server AllLocations
 serverLocations pool = liftIO $
   let action = do
-        locations <- selectList [] []
+        (locations :: [Entity Location]) <- selectList [] []
         return $ map entityVal locations
   in runSqlPool action pool
 

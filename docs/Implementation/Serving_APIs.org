@@ -34,10 +34,18 @@ Given a pair of matching API and Server, we can create an ~wai~ application with
 
 When working with an API that needs access to the database, we can pass the database connection as an argument.
 
-How the connection is used depends on the interface provided by other libraries. When using ~persistent~, we can use the provided ~runSqlPool~ function. This this example, some of the monad order are fixed. Namely, because ~Handler~ is not an instance of ~MonadUnliftIO~, it cannot be used by the action passed to ~runSqlPool~. Thus we:
-- Supply a (~Reader backend (IO a))~ action,
-- Let ~runSqlPool~ handles away the ~(Reader backend)~, leaving us an ~(IO a)~,
-- Finally use ~liftIO~ to lift the action of executing SQL to a ~Handler~ context
+How the connection is used depends on the interface provided by other libraries. Currently, the project uses ~persistent~ for database connection. In this framework, we can use the provided ~runSqlPool~ function:
+
+#+begin_src haskell
+  handler :: ConnectionPool -> Server API
+  handler pool = liftIO $
+    let action = do
+          rows :: [Entity MyData] <- selectList [] [] -- A database operation
+          return $ map entityVal rows
+    in runSqlPool action pool
+#+end_src
+
+When using ~runSqlPool~, it is important to note the monad of the action performed by ~runSqlPool~ has to be an instance of ~MonadUnliftIO~. Because ~Handler~ is not an instance of ~MonadUnliftIO~, we are forced to perform only "simple IO actions" for the database action, then ~liftIO~ the result of ~runSqlPool~ into a ~Handler~ monad.
 
 * Footnotes
 

@@ -16,7 +16,7 @@ Consider the following snippet, adapted from the ~servant~ tutorial [fn:1].
 
 To a first timer, this implementation may appears to contain inconsistencies:
 - You might find the type of ~(return 42)~ to be ~(Handler Int)~. Which is not syntactically the same as ~(Server MyAPI)~.
-- The tutorial [fn:1] also says "for each endpoint, your handlers will by default run in the ~Handler~ monad". So where the ~Handler~ monad in the type annotation of the handler?
+- The tutorial [fn:1] also says "for each endpoint, your handlers will by default run in the ~Handler~ monad". So where is the ~Handler~ monad in the type annotation of the handler?
 
 We resolve the apparent inconsistency in the following documentation.
 
