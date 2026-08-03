@@ -74,7 +74,9 @@ library Endpoints
     hs-source-dirs: app
 
     other-modules: Routes.Location
+                 , Routes.Users
                  , Handlers.Location
+                 , Handlers.Users
                  
     default-language: GHC2021
 

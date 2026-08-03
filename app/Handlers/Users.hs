@@ -37,3 +37,14 @@ usersAPI = Proxy
 
 usersApp :: Application
 usersApp = serve usersAPI serverUsers
+
+type MyAPI = Get '[JSON] Int
+
+serverMy :: Server MyAPI
+serverMy = return 42
+
+myAPI :: Proxy MyAPI
+myAPI = Proxy
+
+myApp :: Application
+myApp = serve myAPI serverMy
