@@ -10,6 +10,7 @@ import           Database.Persist.Sqlite
 import           Control.Monad.Logger
 
 import Model
+
 import Handlers.Location
 
 -- main :: IO ()
@@ -24,6 +25,7 @@ import Handlers.Location
 --     michaelId <- insert $ Location 1.0 2.0
 --     michael <- get michaelId
 --     liftIO $ print michael
+sqliteConnInfo :: SqliteConnectionInfo
 sqliteConnInfo = mkSqliteConnectionInfo "data.db"
 
 type WarpLogFunc = (Request -> Status -> Maybe Integer -> IO ())

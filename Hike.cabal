@@ -51,7 +51,7 @@ common dependencies
                  , monad-logger
                  , conduit
 
-library models
+library Models
     import: dependencies
     
     ghc-options: -Wall
@@ -63,7 +63,20 @@ library models
     exposed-modules: Model
 
     default-language: GHC2021
+
+library Endpoints
+    import: dependencies
+
+    ghc-options: -Wall
+
+    build-depends: Models
+
+    hs-source-dirs: app
+
+    other-modules: Routes.Location
+                 , Handlers.Location
                  
+    default-language: GHC2021
 
 executable Hike
     import:           dependencies
@@ -74,14 +87,13 @@ executable Hike
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
 
-    build-depends: models
+    build-depends: Models
+                 , Endpoints
+
+    other-modules: Routes.Location
+                 , Handlers.Location
 
     hs-source-dirs: app
-
-    other-modules: Routes.Users
-                 , Routes.Location
-                 , Handlers.Users
-                 , Handlers.Location
 
     default-language: GHC2021
 

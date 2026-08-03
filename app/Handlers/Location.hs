@@ -5,12 +5,9 @@ module Handlers.Location
 import Prelude ()
 import Prelude.Compat
 import Control.Monad.IO.Class
-import Control.Monad.Reader
 import Routes.Location
 import Database.Persist.Sql
 import Servant
-
-import Model
 
 serverLocations :: ConnectionPool -> Server AllLocations
 serverLocations pool = liftIO $
