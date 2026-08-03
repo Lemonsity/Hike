@@ -65,7 +65,7 @@ In the body of the class instance, we see when ~ServerT~ is applied to an API of
 
 ** What is ~(Get '[JSON] Int)~
 
-Hidden behind more abstraction, ~the ~Get~ from the API definition is also a type synonym. From the source code [fn:5] [fn:6], we can see that:
+Hidden behind more abstraction, the ~Get~ combinator from the API definition is also a type synonym. From the source code [fn:5] [fn:6], we can see that:
 #+begin_src haskell
   type Get = Verb 'GET 200
 #+end_src
