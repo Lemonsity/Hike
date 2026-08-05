@@ -52,8 +52,6 @@ warpWebServer pool = LoggingT $
 
 main :: IO ()
 main = do
-  runSqliteInfo sqliteConnInfo $ do { runMigration migrateAll
-                                    ; return () }
+  runSqliteInfo sqliteConnInfo $ runMigration migrateAll
   runStderrLoggingT $
-    withSqlitePoolInfo (mkSqliteConnectionInfo "data.db") 10 $
-    warpWebServer
+    withSqlitePoolInfo (mkSqliteConnectionInfo "data.db") 10 warpWebServer
