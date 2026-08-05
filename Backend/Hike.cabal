@@ -26,7 +26,7 @@ extra-doc-files:    CHANGELOG.md
 -- extra-source-files:
 
 
-common dependencies
+common Dependencies
     build-depends: base
                  , bytestring
                  , text
@@ -52,26 +52,26 @@ common dependencies
                  , conduit
 
 library Models
-    import: dependencies
+    import: Dependencies
     
     ghc-options: -Wall
 
     build-depends: 
 
-    hs-source-dirs: models
+    hs-source-dirs: Models
 
     exposed-modules: Model
 
     default-language: GHC2021
 
 library Endpoints
-    import: dependencies
+    import: Dependencies
 
     ghc-options: -Wall
 
     build-depends: Models
 
-    hs-source-dirs: app
+    hs-source-dirs: App
 
     other-modules: Routes.Location
                  , Routes.Users
@@ -81,7 +81,7 @@ library Endpoints
     default-language: GHC2021
 
 executable Hike
-    import:           dependencies
+    import:           Dependencies
     ghc-options: -Wall -threaded
 
     main-is:          Main.hs
@@ -95,7 +95,7 @@ executable Hike
     other-modules: Routes.Location
                  , Handlers.Location
 
-    hs-source-dirs: app
+    hs-source-dirs: App
 
     default-language: GHC2021
 
